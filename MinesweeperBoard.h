@@ -34,6 +34,11 @@ public:
     MinesweeperBoard();
     MinesweeperBoard(int width, int height, GameMode mode);
     void debug_display() const;
+
+    int getBoardWidth() const;
+    int getBoardHeight() const;
+    int getMineCount() const;
+    int countMines(int row, int col) const;
 };
 
 

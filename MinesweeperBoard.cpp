@@ -102,7 +102,7 @@ void MinesweeperBoard::debug_display() const
     std::cout << "\n";
 
     //Display board
-    for (int row = 0; row < height; ++row )
+    for (int row = 0; row < height; ++row)
     {
         std::cout << "  " << row << "  ";
         for (int column = 0; column < width; ++column)
@@ -139,4 +139,40 @@ void MinesweeperBoard::debug_display() const
         }
         std::cout << "\n";
     }
+
+    std::cout << getMineCount();
+}
+
+int MinesweeperBoard::getBoardWidth() const
+{
+    return width;
+}
+
+int MinesweeperBoard::getBoardHeight() const
+{
+    return height;
+}
+
+int MinesweeperBoard::getMineCount() const
+{
+    int mineCount = countMines(1,0);
+    return mineCount;
+}
+
+int MinesweeperBoard::countMines(int row, int col) const {
+    if(board[row][col].isRevealed)
+    {
+        int mineNumber = 0;
+        if (board[row-1][col].hasMine) mineNumber++;
+        if (board[row+1][col].hasMine) mineNumber++;
+        if (board[row][col-1].hasMine) mineNumber++;
+        if (board[row][col+1].hasMine) mineNumber++;
+        if (board[row-1][col-1].hasMine) mineNumber++;
+        if (board[row+1][col-1].hasMine) mineNumber++;
+        if (board[row-1][col+1].hasMine) mineNumber++;
+        if (board[row+1][col+1].hasMine) mineNumber++;
+    }
+
+
+    return mineNumber;
 }

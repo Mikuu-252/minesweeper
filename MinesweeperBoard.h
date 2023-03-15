@@ -28,6 +28,8 @@ class MinesweeperBoard
 private:
     void clear_board();
 
+
+
 public:
     MinesweeperBoard();
     MinesweeperBoard(int width, int height, GameMode mode);

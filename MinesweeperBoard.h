@@ -6,6 +6,7 @@
 #define SAPER_MINESWEEPERBOARD_H
 
 enum GameMode  { DEBUG, EASY, NORMAL, HARD };
+enum GameState { RUNNING, FINISHED_WIN, FINISHED_LOSS };
 
 class MinesweeperBoard
 {
@@ -39,6 +40,12 @@ public:
     int getBoardHeight() const;
     int getMineCount() const;
     int countMines(int row, int col) const;
+    bool hasFlag(int row, int col) const;
+    void toggleFlag(int row, int col);
+    void revealField(int row, int col);
+    bool isRevealed(int row, int col) const;
+    GameState getGameState() const;
+    char getFieldInfo(int row, int col) const;
 };
 
 

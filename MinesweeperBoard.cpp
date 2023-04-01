@@ -11,6 +11,7 @@ MinesweeperBoard::MinesweeperBoard()
 {
     width = 5;
     height = 7;
+    gameState = RUNNING;
 
     clear_board();
 
@@ -20,11 +21,11 @@ MinesweeperBoard::MinesweeperBoard()
     board[0][2].hasFlag = true;
 }
 
-
 MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode mode)
 {
-    GameMode difficulty = mode;
-    //GameState gameState = RUNNING;
+    difficulty = mode;
+    gameState = RUNNING;
+    firstMove = true;
 
     this->width = width;
     this->height = height;
@@ -63,15 +64,15 @@ MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode mode)
         if(difficulty == NORMAL) mineProcent = 20;
         if(difficulty == HARD) mineProcent = 30;
 
-        double mineNumber = std::ceil((size * mineProcent * 1.00)/100);
+        mineNumber = std::ceil((size * mineProcent * 1.00)/100);
+        mineLeft = mineNumber;
 
-        for (int minePlaced = 0; minePlaced < mineNumber; ++minePlaced) {
-            int columnRand = rand() % width;
+        for (int minePlaced = 0; minePlaced < mineNumber; minePlaced++) {
+            int colRand = rand() % width;
             int rowRand = rand() % height;
 
-            if (board[columnRand][rowRand].hasMine) --minePlaced;
-            else board[columnRand][rowRand].hasMine = true;
-
+            if (board[rowRand][colRand].hasMine) minePlaced--;
+            else board[rowRand][colRand].hasMine = true;
         }
 
     }
@@ -154,7 +155,7 @@ int MinesweeperBoard::getBoardHeight() const
 
 int MinesweeperBoard::getMineCount() const
 {
-    return 0;
+    return mineNumber;
 }
 
 int MinesweeperBoard::countMines(int row, int col) const {
@@ -170,15 +171,22 @@ int MinesweeperBoard::countMines(int row, int col) const {
     {
         int mineNumber = 0;
 
-        if (board[row-1][col].hasMine) mineNumber++;
-        if (board[row+1][col].hasMine) mineNumber++;
-        if (board[row][col-1].hasMine) mineNumber++;
-        if (board[row][col+1].hasMine) mineNumber++;
-        if (board[row-1][col-1].hasMine) mineNumber++;
-        if (board[row+1][col-1].hasMine) mineNumber++;
-        if (board[row-1][col+1].hasMine) mineNumber++;
-        if (board[row+1][col+1].hasMine) mineNumber++;
-
+        for(int rowCheck = -1; rowCheck <= 1; ++rowCheck)
+        {
+            for (int colCheck = -1; colCheck <= 1; ++colCheck) {
+                if (row+rowCheck < 0 || col+colCheck < 0 || col+rowCheck > width || row+colCheck > height)
+                {
+                    continue;
+                }
+                else
+                {
+                    if (board[row+rowCheck][col+colCheck].hasMine)
+                    {
+                        mineNumber += 1;
+                    }
+                }
+            }
+        }
         return mineNumber;
     }
 }
@@ -192,14 +200,50 @@ bool MinesweeperBoard::hasFlag(int row, int col) const
 void MinesweeperBoard::toggleFlag(int row, int col) {
     if (!board[row][col].isRevealed)
     {
-        if(board[row][col].hasFlag) board[row][col].hasFlag = false;
-        else board[row][col].hasFlag = true;
+        if(board[row][col].hasFlag)
+        {
+            board[row][col].hasFlag = false;
+
+            if (board[row][col].hasMine)
+            {
+                mineLeft++;
+            }
+            if (!board[row][col].hasMine)
+            {
+                mineLeft--;
+            }
+
+            if(mineLeft == 0)
+            {
+                gameState = FINISHED_WIN;
+            }
+
+        }
+        else
+        {
+            board[row][col].hasFlag = true;
+
+            if (board[row][col].hasMine)
+            {
+                mineLeft--;
+            }
+            if (!board[row][col].hasMine)
+            {
+                mineLeft++;
+            }
+
+            if(mineLeft == 0)
+            {
+                gameState = FINISHED_WIN;
+            }
+
+        }
     }
 
 }
 
 void MinesweeperBoard::revealField(int row, int col) {
-    bool firstMove = true;
+
     if (board[row][col].isRevealed ||
         (row < 0 || col < 0 || col > width || row > height) ||
         getGameState()==FINISHED_LOSS ||
@@ -213,6 +257,11 @@ void MinesweeperBoard::revealField(int row, int col) {
     {
         board[row][col].isRevealed = true;
         firstMove = false;
+
+        if(mineLeft == 0)
+        {
+            gameState = FINISHED_WIN;
+        }
     }
 
     if(!board[row][col].isRevealed && board[row][col].hasMine)
@@ -220,6 +269,8 @@ void MinesweeperBoard::revealField(int row, int col) {
         if(firstMove)
         {
             firstMove = false;
+            board[row][col].hasMine = false;
+            board[row][col].isRevealed = true;
 
             wrongRNG:
 
@@ -232,6 +283,7 @@ void MinesweeperBoard::revealField(int row, int col) {
         else
         {
             board[row][col].isRevealed = true;
+            gameState = FINISHED_LOSS;
         }
     }
 }
@@ -253,20 +305,13 @@ char MinesweeperBoard::getFieldInfo(int row, int col) const {
     if (!board[row][col].isRevealed && !board[row][col].hasFlag) return '_';
     if (board[row][col].isRevealed && board[row][col].hasMine) return 'x';
     if (board[row][col].isRevealed && countMines(row,col) == 0) return ' ';
-    if (board[row][col].isRevealed && countMines(row,col) != 0) return countMines(row,col);
+    if (board[row][col].isRevealed && countMines(row,col) != 0) return countMines(row,col)+'0';
     return 'e';
 }
 
 GameState MinesweeperBoard::getGameState() const {
-    return RUNNING;
+    return gameState;
 }
 
 
-
-/*
- * GameState jak zrobic
- * Jak zrobic firstmove
- * jak sprawdzic debug mode w revealfield
- * jak zrobic get count mine
- */
 

@@ -7,24 +7,28 @@
 
 enum GameMode  { DEBUG, EASY, NORMAL, HARD };
 enum GameState { RUNNING, FINISHED_WIN, FINISHED_LOSS };
+struct Field
+{
+    bool hasMine;
+    bool hasFlag;
+    bool isRevealed;
+};
 
 class MinesweeperBoard
 {
-    struct Field
-    {
-        bool hasMine;
-        bool hasFlag;
-        bool isRevealed;
-    };
 
     // sugerowane:
     // Array2D<Field> board;
 
-    // tablica 2D
     Field board[100][100]{};
 
-    int width;                // rzeczywista szerokość planszy
-    int height;               // rzeczywista wysokość planszy
+    int width;
+    int height;
+    int mineNumber;
+    int mineLeft;
+    GameState gameState;
+    GameMode difficulty;
+    bool firstMove;
 
 private:
     void clear_board();

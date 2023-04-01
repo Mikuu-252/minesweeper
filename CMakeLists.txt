@@ -27,4 +27,4 @@ add_compile_options(-Werror=array-bounds)
 add_compile_options ( -Wcast-qual )
 add_compile_options ( -Wmaybe-uninitialized )
 
-add_executable(cpp_2023_lab_01 main.cpp MinesweeperBoard.cpp MinesweeperBoard.h)
+add_executable(cpp_2023_lab_01 main.cpp MinesweeperBoard.cpp MinesweeperBoard.h MSBoardTextView.cpp MSBoardTextView.h MSTextController.cpp MSTextController.h)

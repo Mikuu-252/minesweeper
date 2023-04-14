@@ -59,6 +59,7 @@ void MSTextController::play() {
     }
     else if (board.getGameState() == FINISHED_LOSS)
     {
+        view.display();
         std::cout << "Przegrales dasz rade kolejnym razem!";
     }
     else

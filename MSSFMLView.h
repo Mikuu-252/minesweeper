@@ -7,17 +7,31 @@
 #include "MinesweeperBoard.h"
 #include <SFML/Graphics.hpp>
 
-struct fieldSize {
-    int xsizeField;
-    int ysizeField;
-    int spaceField;
+struct fieldAttribute {
+    float xsizeField;
+    float ysizeField;
+    float borderField;
+    sf::Color baseColor;
+    sf::Color revealColor;
 };
+
 
 class MSSFMLView {
     MinesweeperBoard &board;
 
     sf::RectangleShape field;
-    fieldSize fieldSize;
+    fieldAttribute fieldAttribute;
+
+    sf::CircleShape flag;
+    float flagSize;
+
+    sf::CircleShape mine;
+    float mineSize;
+
+    sf::Font font;
+    float fontSize;
+    sf::Text mineNumber;
+
     void init();
 
 public:

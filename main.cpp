@@ -14,6 +14,7 @@ int main()
     ctrl.play();
     */
 
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Grafika w C++/SFML");
     window.setVerticalSyncEnabled(false);
     window.setFramerateLimit(30);
@@ -23,7 +24,7 @@ int main()
 
     // symulujemy rozgrywkę
     board.toggleFlag(0,0);
-    board.revealField(2,3);
+    board.revealField(3,2);
 
     while (window.isOpen())
     {

@@ -1,7 +1,3 @@
-//
-// Created by mikuu on 12.04.2023.
-//
-
 #include <iostream>
 #include "MSSFMLView.h"
 
@@ -9,7 +5,8 @@
 MSSFMLView::MSSFMLView(MinesweeperBoard &board): board(board)
 {init();}
 
-void MSSFMLView::init() {
+void MSSFMLView::init()
+{
 
     //FIELD
     fieldAttribute.xsizeField = 50;
@@ -53,6 +50,9 @@ void MSSFMLView::init() {
         mineNumber.setFont(font);
         mineNumber.setFillColor(sf::Color(255,255,255));
         mineNumber.setCharacterSize(fontSize);
+
+        endText.setFont(font);
+        endText.setCharacterSize(fontSize);
     }
 }
 
@@ -93,6 +93,20 @@ void MSSFMLView::draw(sf::RenderWindow &window) {
                                        (fontSize / 4) + (row * fieldAttribute.ysizeField) + (row * fieldAttribute.borderField));
                 mineNumber.setString(board.getFieldInfo(row, col));
                 window.draw(mineNumber);
+            }
+
+            if (board.getGameState() == FINISHED_LOSS || board.getGameState() == FINISHED_WIN) {
+                endText.setPosition((fieldAttribute.xsizeField + fieldAttribute.borderField) * (board.getBoardWidth()/2),
+                                    (fieldAttribute.ysizeField + fieldAttribute.borderField) * (board.getBoardHeight()));
+                if (board.getGameState() == FINISHED_WIN){
+                    endText.setFillColor(sf::Color(255,255,0));
+                    endText.setString("Wygrana");
+                } else {
+                    endText.setFillColor(sf::Color(255,0,0));
+                    endText.setString("Przegrana");
+                }
+
+                window.draw(endText);
             }
         }
     }

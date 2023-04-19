@@ -1,9 +1,5 @@
-//
-// Created by mikuu on 08.03.2023.
-//
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
 #include <cmath>
 #include "MinesweeperBoard.h"
 
@@ -33,7 +29,6 @@ MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode mode)
     int size = width * height;
     int mineProcent;
 
-    srand(time(nullptr));
 
     clear_board();
 
@@ -44,13 +39,15 @@ MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode mode)
             board[0][column].hasMine = true;
         }
 
-        for (int row = 0; row < height; row = row + 2) {
+        for (int row = 0; row < height; row = row + 2)
+        {
             board[row][0].hasMine = true;
         }
 
         for (int column = 0; column < width; ++column)
         {
-            for (int row = 0; row < height; ++row) {
+            for (int row = 0; row < height; ++row)
+            {
                 if (row == column)
                 {
                     board[row][column].hasMine = true;
@@ -67,7 +64,8 @@ MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode mode)
         mineNumber = std::ceil((size * mineProcent * 1.00)/100);
         mineLeft = mineNumber;
 
-        for (int minePlaced = 0; minePlaced < mineNumber; minePlaced++) {
+        for (int minePlaced = 0; minePlaced < mineNumber; minePlaced++)
+        {
             int colRand = rand() % width;
             int rowRand = rand() % height;
 
@@ -98,7 +96,8 @@ void MinesweeperBoard::debug_display() const
 {
     //Display number
     std::cout << "     ";
-    for (int i = 0; i < width; ++i) {
+    for (int i = 0; i < width; ++i)
+    {
         std::cout << "  " << i << "  ";
     }
     std::cout << "\n";
@@ -158,7 +157,8 @@ int MinesweeperBoard::getMineCount() const
     return mineNumber;
 }
 
-int MinesweeperBoard::countMines(int row, int col) const {
+int MinesweeperBoard::countMines(int row, int col) const
+{
     if(!board[row][col].isRevealed)
     {
         return -1;
@@ -173,7 +173,8 @@ int MinesweeperBoard::countMines(int row, int col) const {
 
         for(int rowCheck = -1; rowCheck <= 1; ++rowCheck)
         {
-            for (int colCheck = -1; colCheck <= 1; ++colCheck) {
+            for (int colCheck = -1; colCheck <= 1; ++colCheck)
+            {
                 if (row+rowCheck < 0 || col+colCheck < 0 || col+rowCheck > width || row+colCheck > height)
                 {
                     continue;
@@ -197,7 +198,8 @@ bool MinesweeperBoard::hasFlag(int row, int col) const
     else { return false; }
 }
 
-void MinesweeperBoard::toggleFlag(int row, int col) {
+void MinesweeperBoard::toggleFlag(int row, int col)
+{
     if (!board[row][col].isRevealed)
     {
         if(board[row][col].hasFlag)
@@ -242,8 +244,8 @@ void MinesweeperBoard::toggleFlag(int row, int col) {
 
 }
 
-void MinesweeperBoard::revealField(int row, int col) {
-
+void MinesweeperBoard::revealField(int row, int col)
+{
     if (board[row][col].isRevealed ||
         (row < 0 || col < 0 || col > width || row > height) ||
         getGameState()==FINISHED_LOSS ||
@@ -288,7 +290,8 @@ void MinesweeperBoard::revealField(int row, int col) {
     }
 }
 
-bool MinesweeperBoard::isRevealed(int row, int col) const {
+bool MinesweeperBoard::isRevealed(int row, int col) const
+{
     if (board[row][col].isRevealed)
     {
         return true;
@@ -299,17 +302,19 @@ bool MinesweeperBoard::isRevealed(int row, int col) const {
     }
 }
 
-char MinesweeperBoard::getFieldInfo(int row, int col) const {
+char MinesweeperBoard::getFieldInfo(int row, int col) const
+{
     if (row < 0 || col < 0 || col > width || row > height) return '#';
     if (!board[row][col].isRevealed && board[row][col].hasFlag) return 'F';
     if (!board[row][col].isRevealed && !board[row][col].hasFlag) return '_';
     if (board[row][col].isRevealed && board[row][col].hasMine) return 'x';
     if (board[row][col].isRevealed && countMines(row,col) == 0) return ' ';
-    if (board[row][col].isRevealed && countMines(row,col) != 0) return countMines(row,col)+'0';
+    if (board[row][col].isRevealed && countMines(row,col) != 0) return '0' + countMines(row,col);
     return 'e';
 }
 
-GameState MinesweeperBoard::getGameState() const {
+GameState MinesweeperBoard::getGameState() const
+{
     return gameState;
 }
 

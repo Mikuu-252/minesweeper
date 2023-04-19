@@ -1,12 +1,9 @@
-//
-// Created by mikuu on 08.03.2023.
-//
-
 #ifndef SAPER_MINESWEEPERBOARD_H
 #define SAPER_MINESWEEPERBOARD_H
 
 enum GameMode  { DEBUG, EASY, NORMAL, HARD };
 enum GameState { RUNNING, FINISHED_WIN, FINISHED_LOSS };
+
 struct Field
 {
     bool hasMine;
@@ -16,10 +13,6 @@ struct Field
 
 class MinesweeperBoard
 {
-
-    // sugerowane:
-    // Array2D<Field> board;
-
     Field board[100][100]{};
 
     int width;
@@ -32,8 +25,6 @@ class MinesweeperBoard
 
 private:
     void clear_board();
-
-
 
 public:
     MinesweeperBoard();

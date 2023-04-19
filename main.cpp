@@ -1,12 +1,16 @@
+#include <ctime>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "MinesweeperBoard.h"
-#include "MSBoardTextView.h"
-#include "MSTextController.h"
+//#include "MSBoardTextView.h"
+//#include "MSTextController.h"
 #include "MSSFMLView.h"
+#include "MSSFMLController.h"
 
 int main()
 {
+    srand(time(nullptr));
+
     /*KONSOLA
     MinesweeperBoard board (5, 5, GameMode::EASY);
     MSBoardTextView view ( board );
@@ -14,31 +18,18 @@ int main()
     ctrl.play();
     */
 
-
+    //GRAFIKA
     sf::RenderWindow window(sf::VideoMode(800, 600), "Grafika w C++/SFML");
     window.setVerticalSyncEnabled(false);
     window.setFramerateLimit(30);
 
-    MinesweeperBoard board(7, 4, DEBUG);
-    MSSFMLView view (board);  // przekazujemy przez referencję planszę jako argument konstruktora
+    MinesweeperBoard board(7, 4, EASY);
+    MSSFMLView view (board);
 
-    // symulujemy rozgrywkę
-    board.toggleFlag(0,0);
-    board.revealField(3,2);
+    MSSFMLController ctrl (board, view, window);
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    ctrl.play();
 
-        window.clear();
-        view.draw(window);
-        window.display();
-    }
 
     return 0;
 }

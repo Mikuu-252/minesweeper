@@ -54,5 +54,5 @@ add_compile_options(-Werror=array-bounds)
 add_compile_options ( -Wcast-qual )
 add_compile_options ( -Wmaybe-uninitialized )
 
-add_executable(Saper main.cpp MinesweeperBoard.cpp MinesweeperBoard.h MSBoardTextView.cpp MSBoardTextView.h MSTextController.cpp MSTextController.h MSSFMLView.cpp MSSFMLView.h)
+add_executable(Saper main.cpp MinesweeperBoard.cpp MinesweeperBoard.h MSBoardTextView.cpp MSBoardTextView.h MSTextController.cpp MSTextController.h MSSFMLView.cpp MSSFMLView.h MSSFMLController.cpp MSSFMLController.h)
 target_link_libraries(Saper sfml-graphics sfml-audio)

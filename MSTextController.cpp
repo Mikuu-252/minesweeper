@@ -1,7 +1,3 @@
-//
-// Created by mikuu on 01.04.2023.
-//
-
 #include <iostream>
 #include "MSTextController.h"
 #include "MinesweeperBoard.h"

@@ -1,7 +1,3 @@
-//
-// Created by mikuu on 12.04.2023.
-//
-
 #ifndef SAPER_MSSFMLVIEW_H
 #define SAPER_MSSFMLVIEW_H
 #include "MinesweeperBoard.h"
@@ -30,7 +26,9 @@ class MSSFMLView {
 
     sf::Font font;
     float fontSize;
+
     sf::Text mineNumber;
+    sf::Text endText;
 
     void init();
 

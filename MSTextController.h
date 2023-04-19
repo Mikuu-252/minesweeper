@@ -1,7 +1,3 @@
-//
-// Created by mikuu on 01.04.2023.
-//
-
 #ifndef CPP_2023_LAB_01_MSTEXTCONTROLLER_H
 #define CPP_2023_LAB_01_MSTEXTCONTROLLER_H
 
